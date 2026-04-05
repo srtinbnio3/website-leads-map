@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
+import type { CrmStatus, Lead } from "@/lib/types";
 
 const CRM_STATUSES = ["未対応", "営業済", "返信あり", "対象外", "保守契約"] as const;
 const WS_LABELS: Record<string, string> = { none: "未登録", sns_only: "SNSのみ", external_media_only: "外部媒体", has_own_website: "自社HP" };
 
-export function LeadsList({ leads }: { leads: any[] }) {
+export function LeadsList({ leads }: { leads: Lead[] }) {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const updateStatus = useMutation(api.leads.updateLeadStatus);
   const deleteLead = useMutation(api.leads.deleteLead);
@@ -40,7 +41,7 @@ export function LeadsList({ leads }: { leads: any[] }) {
                 </div>
                 <p className="text-xs text-muted-foreground">{lead.formattedAddress}</p>
                 <div className="flex items-center gap-2">
-                  <Select value={lead.status} onValueChange={(v: string) => updateStatus({ leadId: lead._id, status: v as any })}>
+                  <Select value={lead.status} onValueChange={(v) => updateStatus({ leadId: lead._id, status: v as CrmStatus })}>
                     <SelectTrigger className="flex-1 h-7 text-xs"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {CRM_STATUSES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}

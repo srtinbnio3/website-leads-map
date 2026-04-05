@@ -10,7 +10,10 @@
 
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
-import type * as messages from "../messages.js";
+import type * as leads from "../leads.js";
+import type * as lib_domainAnalysis from "../lib/domainAnalysis.js";
+import type * as lib_placesApi from "../lib/placesApi.js";
+import type * as places from "../places.js";
 import type * as users from "../users.js";
 
 import type {
@@ -22,7 +25,10 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
-  messages: typeof messages;
+  leads: typeof leads;
+  "lib/domainAnalysis": typeof lib_domainAnalysis;
+  "lib/placesApi": typeof lib_placesApi;
+  places: typeof places;
   users: typeof users;
 }>;
 

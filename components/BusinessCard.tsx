@@ -1,9 +1,11 @@
 "use client";
+import type { MouseEvent } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import type { SearchResult } from "@/lib/types";
 
 const STATUS_LABELS: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
   none: { label: "未登録", variant: "destructive" },
@@ -12,11 +14,18 @@ const STATUS_LABELS: Record<string, { label: string; variant: "default" | "secon
   has_own_website: { label: "自社HP", variant: "outline" },
 };
 
-export function BusinessCard({ business, isSaved, isHighlighted, onClick }: any) {
+interface BusinessCardProps {
+  business: SearchResult;
+  isSaved: boolean;
+  isHighlighted: boolean;
+  onClick: () => void;
+}
+
+export function BusinessCard({ business, isSaved, isHighlighted, onClick }: BusinessCardProps) {
   const saveLead = useMutation(api.leads.saveLead);
   const statusInfo = STATUS_LABELS[business.websiteStatus] ?? { label: "不明", variant: "outline" as const };
 
-  const handleSave = async (e: React.MouseEvent) => {
+  const handleSave = async (e: MouseEvent) => {
     e.stopPropagation();
     await saveLead({
       placeId: business.id,

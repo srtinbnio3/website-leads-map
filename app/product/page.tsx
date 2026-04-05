@@ -5,17 +5,18 @@ import { api } from "@/convex/_generated/api";
 import { MapPanel } from "@/components/MapPanel";
 import { BusinessPanel } from "@/components/BusinessPanel";
 import { SearchBar } from "@/components/SearchBar";
+import type { Lead, SearchResult } from "@/lib/types";
 
 export default function ProductPage() {
   const [location, setLocation] = useState<{lat: number; lng: number} | null>(null);
   const [geoError, setGeoError] = useState<string | null>(null);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [highlightedPlaceId, setHighlightedPlaceId] = useState<string | null>(null);
 
   const searchNearby = useAction(api.places.searchNearby);
   const leads = useQuery(api.leads.listLeads, {});
-  const savedPlaceIds = new Set((leads ?? []).map((l: any) => l.placeId));
+  const savedPlaceIds = new Set<string>((leads ?? []).map((lead: Lead) => lead.placeId));
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -29,7 +30,7 @@ export default function ProductPage() {
     setIsSearching(true);
     try {
       const res = await searchNearby({ latitude: location.lat, longitude: location.lng, keyword, radius });
-      setResults(res as any[]);
+      setResults(res);
     } finally {
       setIsSearching(false);
     }
