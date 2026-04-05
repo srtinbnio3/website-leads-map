@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# oh-my-claudecode (local state, cache, project memory)
+/.omc/
+
 # vercel
 .vercel
 
