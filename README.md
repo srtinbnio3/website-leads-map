@@ -1,70 +1,169 @@
-# Welcome to your Convex + Next.js + Convex Auth app
+# WebsiteLeadsMap
 
-This is a [Convex](https://convex.dev/) project created with [`npm create convex`](https://www.npmjs.com/package/create-convex).
+## 概要
 
-After the initial setup (<2 minutes) you'll have a working full-stack app using:
+WebsiteLeadsMap は、Google Maps ライクなUIで営業対象候補を抽出し、そのまま営業管理まで行えるリード生成ツールです。
 
-- Convex as your backend (database, server logic)
-- [Convex Auth](https://labs.convex.dev/auth) for your authentication implementation
-- [React](https://react.dev/) as your frontend (web page interactivity)
-- [Next.js](https://nextjs.org/) for optimized web hosting and page routing
-- [Tailwind](https://tailwindcss.com/) and [shadcn/ui](https://ui.shadcn.com/) for building great looking accessible UI fast
+任意地点周辺の事業所を距離順に検索し、Google Maps の `websiteUri` を解析して
 
-## Get started
+- ホームページ未設置
+- SNSのみ掲載
+- 外部ポータル掲載のみ
 
-If you just cloned this codebase and didn't use `npm create convex`, run:
+の可能性が高い事業所を抽出・保存・管理・CSV出力できます。
 
-```
-npm install
-npm run dev
-```
+---
 
-If you're reading this README on GitHub and want to use this template, run:
+## 主な機能
 
-```
-npm create convex@latest -- -t nextjs-convexauth-shadcn
-```
+### 地図ベース検索（Google MapsライクUI）
 
-## The app
+- 任意地点検索
+- 周辺事業所取得`
+- 距離順表示
+- マップ＋リスト連動表示
 
-The app is a basic multi-user chat. Walkthrough of the source code:
+---
 
-- [convex/auth.ts](./convex/auth.ts) configures the available authentication methods
-- [convex/messages.ts](./convex/messages.ts) is the chat backend implementation
-- [middleware.ts](./middleware.ts) determines which pages require sign-in
-- [app/layout.tsx](./app/layout.tsx) is the main app layout
-- [app/(splash)/page.tsx](<./app/(splash)/page.tsx>) is the splash page (doesn't require sign-in)
-- [app/product/layout.tsx](./app/product/layout.tsx) is the "product" layout for the [product page](./app/product/page.tsx) (requires sign-in)
-- [app/signin/page.tsx](./app/signin/page.tsx) is the sign-in page
-- [app/product/Chat/Chat.tsx](./app/product/Chat/Chat.tsx) is the chat frontend
+### 業種指定検索
 
-## Configuring other authentication methods
+対象業種を指定して検索可能
 
-To configure different authentication methods, see [Configuration](https://labs.convex.dev/auth/config) in the Convex Auth docs.
+営業ターゲットを絞った効率的なリスト作成ができます
 
-## Learn more
+---
 
-To learn more about developing your project with Convex, check out:
+### websiteUri解析による営業候補抽出
 
-- The [Tour of Convex](https://docs.convex.dev/get-started) for a thorough introduction to Convex principles.
-- The rest of [Convex docs](https://docs.convex.dev/) to learn about all Convex features.
-- [Stack](https://stack.convex.dev/) for in-depth articles on advanced topics.
+Google Places API の `websiteUri` を解析し
 
-## Join the community
+- SNSのみ
+- 外部媒体のみ
+- 未登録
 
-Join thousands of developers building full-stack apps with Convex:
+を判定します
 
-## Deploy on Vercel
+抽出対象例：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Instagramのみ
+- Facebookのみ
+- Hot Pepperのみ
+- 食べログのみ
+- 外部予約サイトのみ
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
 
-## Deploy on Vercel
+### 営業ステータス管理（簡易CRM）
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+候補ごとに営業進捗を管理可能
 
-# Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 未対応
+- 営業済
+- 返信あり
+- 対象外
+- 保守契約
 
-- Join the [Convex Discord community](https://convex.dev/community) to get help in real-time.
-- Follow [Convex on GitHub](https://github.com/get-convex/), star and contribute to the open-source implementation of Convex.
+---
+
+### CSV出力
+
+現在のフィルタ結果をそのままCSV出力可能
+
+例：
+
+- 未対応のみ
+- 返信ありのみ
+- 契約除外
+
+---
+
+### 認証
+
+Convex Auth による Google OAuthのみ
+
+---
+
+### 決済
+
+Stripe
+
+---
+
+## 想定ユーザー
+
+- Web制作会社
+- フリーランス制作者
+- 営業担当
+- MEO事業者
+
+特に
+
+**HP未設置事業所を効率的に探したい人**
+
+に最適です
+
+---
+
+# 解決する課題（GTV）
+
+## 誰の
+
+Web制作会社・フリーランス制作者・営業担当者の
+
+---
+
+## どんな課題を
+
+営業対象となる
+
+- ホームページ未設置
+- SNSのみ掲載
+
+の事業所を手作業で探すのに時間がかかる課題を
+
+---
+
+## どう解決する
+
+現在地周辺の事業所を距離順に検索し
+
+- websiteUri解析
+- 業種指定検索
+- 営業対象判定
+- 保存
+- ステータス管理
+
+まで一括で行えるようにすることで解決する
+
+---
+
+## どんな価値のある
+
+短時間で営業可能性の高い見込み顧客リストを作成でき制作提案数を増やせる価値のあるツール
+
+---
+
+## どんな製品か
+
+位置情報ベースで
+
+- HP未設置候補抽出
+- 業種指定検索
+- 営業管理
+- CSV出力
+
+まで行えるリード生成SaaS
+
+---
+
+## 技術スタック
+
+| レイヤー     | 技術                              |
+| -------- | ------------------------------- |
+| Frontend | Next.js                         |
+| Backend  | Convex                          |
+| Auth     | Convex Auth (Google OAuth)      |
+| 決済     | Stripe                          |
+| Hosting  | Vercel                          |
+| Map      | Google Maps JavaScript API      |
+| Places   | Places API (New)                |
