@@ -45,6 +45,7 @@ Google Places API の `websiteUri` を解析し、以下を自動判定：
 ### 認証
 
 Convex Auth による Google OAuth のみ（シンプルで安全）。
+トップページのマップ閲覧はログイン不要。検索ボタン押下時に認証チェックを行い、未ログインユーザーにはログインモーダルを表示。
 
 ## セットアップ手順
 
@@ -154,8 +155,11 @@ npm run dev
 ```
 website-leads-map/
 ├── app/                          # Next.js アプリケーション
+│   ├── (splash)/
+│   │   ├── page.tsx             # トップページ（マップ＋検索＋認証チェック）
+│   │   └── layout.tsx           # トップページレイアウト
 │   ├── product/
-│   │   ├── page.tsx             # メイン検索UI（マップ＋リスト）
+│   │   ├── page.tsx             # / へリダイレクト（後方互換）
 │   │   └── layout.tsx           # プロダクト画面レイアウト
 │   ├── signin/
 │   │   └── page.tsx             # Google OAuth サインインページ
@@ -167,6 +171,7 @@ website-leads-map/
 │   ├── BusinessPanel.tsx        # 検索結果/リード一覧パネル
 │   ├── BusinessCard.tsx         # 事業所カード
 │   ├── SearchBar.tsx            # 検索入力UI
+│   ├── LoginModal.tsx           # ログイン促進モーダル
 │   ├── LeadStatusBadge.tsx      # CRMステータスバッジ
 │   └── ...その他UI部品
 │

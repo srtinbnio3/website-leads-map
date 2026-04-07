@@ -23,7 +23,7 @@ function SignInWithGoogle() {
       className="flex-1"
       variant="outline"
       type="button"
-      onClick={() => void signIn("google", { redirectTo: "/product" })}
+      onClick={() => void signIn("google", { redirectTo: "/" })}
     >
       Googleでサインイン
     </Button>
