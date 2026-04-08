@@ -1,14 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function SearchBar({ onSearch, isSearching }: { onSearch: (k: string, r: number) => void; isSearching: boolean }) {
+export function SearchBar({ onSearch, isSearching, children }: { onSearch: (k: string, r: number) => void; isSearching: boolean; children?: ReactNode }) {
   const [keyword, setKeyword] = useState("");
   const [radius, setRadius] = useState(1000);
   return (
-    <div className="flex gap-2 p-3 border-b bg-background items-center">
+    <div className="flex items-center h-14 px-4 border-b bg-background gap-2">
       <Input placeholder="業種・キーワード（任意）" value={keyword} onChange={(e) => setKeyword(e.target.value)} className="max-w-xs" />
       <Select value={String(radius)} onValueChange={(v: string) => setRadius(Number(v))}>
         <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
@@ -22,6 +22,7 @@ export function SearchBar({ onSearch, isSearching }: { onSearch: (k: string, r: 
       <Button onClick={() => onSearch(keyword, radius)} disabled={isSearching}>
         {isSearching ? "検索中..." : "検索"}
       </Button>
+      {children && <div className="ml-auto">{children}</div>}
     </div>
   );
 }

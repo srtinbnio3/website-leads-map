@@ -16,9 +16,9 @@ interface BusinessPanelProps {
 export function BusinessPanel({ searchResults, savedPlaceIds, leads, highlightedPlaceId, onCardHighlight }: BusinessPanelProps) {
   return (
     <Tabs defaultValue="search" className="flex flex-col h-full">
-      <TabsList className="mx-2 mt-2 shrink-0">
-        <TabsTrigger value="search">検索結果 ({searchResults.length})</TabsTrigger>
-        <TabsTrigger value="leads">保存済みリード ({leads.length})</TabsTrigger>
+      <TabsList className="mx-2 mt-2 shrink-0 bg-transparent border-b rounded-none w-full justify-start">
+        <TabsTrigger value="search" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none text-muted-foreground rounded-none">検索結果 ({searchResults.length})</TabsTrigger>
+        <TabsTrigger value="leads" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none text-muted-foreground rounded-none">保存済みリード ({leads.length})</TabsTrigger>
       </TabsList>
       <TabsContent value="search" className="flex-1 overflow-hidden m-0">
         <ScrollArea className="h-full">

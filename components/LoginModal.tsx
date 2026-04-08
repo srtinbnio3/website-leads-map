@@ -20,7 +20,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-w-[425px] shadow-[0_8px_24px_rgba(0,0,0,0.15)]">
         <DialogHeader>
           <DialogTitle>ログインが必要です</DialogTitle>
           <DialogDescription>

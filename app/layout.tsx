@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
@@ -13,6 +13,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "600", "700"], display: "swap", variable: "--font-noto-sans-jp" });
 
 export const metadata: Metadata = {
   title: "WebsiteLeadsMap",
@@ -32,9 +34,10 @@ export default function RootLayout({
       {/* `suppressHydrationWarning` only affects the html tag,
       // and is needed by `ThemeProvider` which sets the theme
       // class attribute on it */}
-      <html lang="en" suppressHydrationWarning>
+      <html lang="ja" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${notoSansJP.variable} antialiased`}
+          style={{ fontFamily: '"Geist", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif' }}
         >
           <ThemeProvider attribute="class">{children}</ThemeProvider>
         </body>

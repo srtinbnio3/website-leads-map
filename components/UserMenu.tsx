@@ -22,14 +22,14 @@ export function UserMenu({ children }: { children: ReactNode }) {
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
             <PersonIcon className="h-5 w-5" />
-            <span className="sr-only">Toggle user menu</span>
+            <span className="sr-only">ユーザーメニュー</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{children}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuLabel className="flex items-center gap-2 py-0 font-normal">
-            Theme
+            テーマ
             <ThemeToggle />
           </DropdownMenuLabel>
           <SignOutButton />
@@ -42,6 +42,6 @@ export function UserMenu({ children }: { children: ReactNode }) {
 function SignOutButton() {
   const { signOut } = useAuthActions();
   return (
-    <DropdownMenuItem onClick={() => void signOut()}>Sign out</DropdownMenuItem>
+    <DropdownMenuItem onClick={() => void signOut()}>ログアウト</DropdownMenuItem>
   );
 }

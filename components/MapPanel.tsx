@@ -2,10 +2,10 @@
 import { APIProvider, Map, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
 
 const STATUS_COLORS: Record<string, string> = {
-  none: "#ef4444",
-  sns_only: "#f97316",
-  external_media_only: "#eab308",
-  has_own_website: "#22c55e",
+  none: "#DC2626",
+  sns_only: "#F59E0B",
+  external_media_only: "#2563EB",
+  has_own_website: "#16A34A",
 };
 
 interface Business {

@@ -8,6 +8,7 @@ import { MapPanel } from "@/components/MapPanel";
 import { BusinessPanel } from "@/components/BusinessPanel";
 import { SearchBar } from "@/components/SearchBar";
 import { LoginModal } from "@/components/LoginModal";
+import { UserMenu } from "@/components/UserMenu";
 import type { Lead, SearchResult } from "@/lib/types";
 
 export default function HomePage() {
@@ -50,23 +51,25 @@ export default function HomePage() {
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} isSearching={isSearching} />
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1">
-          <MapPanel
-            center={location}
-            businesses={results}
-            highlightedPlaceId={highlightedPlaceId}
-            onMarkerClick={(placeId: string) => setHighlightedPlaceId(placeId)}
-          />
-        </div>
-        <div className="w-96 border-l overflow-hidden">
+      <SearchBar onSearch={handleSearch} isSearching={isSearching}>
+        {isAuthenticated && <UserMenu>WebsiteLeadsMap</UserMenu>}
+      </SearchBar>
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div className="w-full md:w-[400px] h-[50vh] md:h-auto border-b md:border-b-0 md:border-r order-2 md:order-1 overflow-hidden">
           <BusinessPanel
             searchResults={results}
             savedPlaceIds={savedPlaceIds}
             leads={leads ?? []}
             highlightedPlaceId={highlightedPlaceId}
             onCardHighlight={(placeId: string) => setHighlightedPlaceId(placeId)}
+          />
+        </div>
+        <div className="flex-1 h-[50vh] md:h-auto order-1 md:order-2">
+          <MapPanel
+            center={location}
+            businesses={results}
+            highlightedPlaceId={highlightedPlaceId}
+            onMarkerClick={(placeId: string) => setHighlightedPlaceId(placeId)}
           />
         </div>
       </div>
