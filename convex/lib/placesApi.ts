@@ -6,6 +6,7 @@ export interface PlaceResult {
   primaryType?: string;
   nationalPhoneNumber?: string;
   websiteUri?: string;
+  userRatingCount?: number;
 }
 
 export async function fetchNearbyPlaces(
@@ -28,7 +29,7 @@ export async function fetchNearbyPlaces(
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.primaryType,places.nationalPhoneNumber,places.websiteUri",
+      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.primaryType,places.nationalPhoneNumber,places.websiteUri,places.userRatingCount",
     },
     body: JSON.stringify(body),
   });

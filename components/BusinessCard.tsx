@@ -47,7 +47,10 @@ export function BusinessCard({ business, isSaved, isHighlighted, onClick }: Busi
           <Badge variant={statusInfo.variant} className="shrink-0 text-xs">{statusInfo.label}</Badge>
         </div>
         <p className="text-xs text-muted-foreground [word-break:keep-all]">{business.formattedAddress}</p>
-        {business.distance !== undefined && <p className="text-xs text-muted-foreground">{business.distance}m</p>}
+        <div className="flex gap-3 text-xs text-muted-foreground">
+          {business.distance !== undefined && <span>{business.distance}m</span>}
+          {business.userRatingCount !== undefined && <span>クチコミ {business.userRatingCount}件</span>}
+        </div>
         {!isSaved ? (
           <Button size="sm" variant="outline" className="w-full mt-1 text-xs h-7" onClick={handleSave}>
             リードに保存
