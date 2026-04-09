@@ -4,13 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export function SearchBar({ onSearch, isSearching, children }: { onSearch: (k: string, r: number) => void; isSearching: boolean; children?: ReactNode }) {
+export function SearchBar({ onSearch, onRadiusChange, isSearching, children }: { onSearch: (k: string, r: number) => void; onRadiusChange?: (r: number) => void; isSearching: boolean; children?: ReactNode }) {
   const [keyword, setKeyword] = useState("");
   const [radius, setRadius] = useState(1000);
+  const handleRadiusChange = (v: string) => {
+    const r = Number(v);
+    setRadius(r);
+    onRadiusChange?.(r);
+  };
   return (
     <div className="flex items-center h-14 px-4 border-b bg-background gap-2">
       <Input placeholder="業種・キーワード（任意）" value={keyword} onChange={(e) => setKeyword(e.target.value)} className="max-w-xs" />
-      <Select value={String(radius)} onValueChange={(v: string) => setRadius(Number(v))}>
+      <Select value={String(radius)} onValueChange={handleRadiusChange}>
         <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
         <SelectContent>
           <SelectItem value="500">500m</SelectItem>

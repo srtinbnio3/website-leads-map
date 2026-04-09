@@ -1,5 +1,5 @@
 "use client";
-import { APIProvider, Map, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker, Pin, Circle } from "@vis.gl/react-google-maps";
 
 const STATUS_COLORS: Record<string, string> = {
   none: "#DC2626",
@@ -17,15 +17,25 @@ interface Business {
 
 interface MapPanelProps {
   center: { lat: number; lng: number };
+  radius: number;
   businesses: Business[];
   highlightedPlaceId: string | null;
   onMarkerClick: (placeId: string) => void;
 }
 
-export function MapPanel({ center, businesses, highlightedPlaceId, onMarkerClick }: MapPanelProps) {
+export function MapPanel({ center, radius, businesses, highlightedPlaceId, onMarkerClick }: MapPanelProps) {
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
       <Map defaultCenter={center} defaultZoom={15} mapId="wlm-map" className="w-full h-full">
+        <Circle
+          center={center}
+          radius={radius}
+          fillColor="#3b82f6"
+          fillOpacity={0.08}
+          strokeColor="#3b82f6"
+          strokeOpacity={0.4}
+          strokeWeight={2}
+        />
         <AdvancedMarker position={center}>
           <Pin background="#3b82f6" borderColor="#1d4ed8" glyphColor="#fff" />
         </AdvancedMarker>

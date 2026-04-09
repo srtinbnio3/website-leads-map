@@ -16,6 +16,7 @@ export default function HomePage() {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [geoError, setGeoError] = useState<string | null>(null);
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [radius, setRadius] = useState(1000);
   const [isSearching, setIsSearching] = useState(false);
   const [highlightedPlaceId, setHighlightedPlaceId] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -31,7 +32,7 @@ export default function HomePage() {
     );
   }, []);
 
-  const handleSearch = async (keyword: string, radius: number) => {
+  const handleSearch = async (keyword: string, searchRadius: number) => {
     if (!isAuthenticated) {
       setShowLoginModal(true);
       return;
@@ -39,7 +40,7 @@ export default function HomePage() {
     if (!location) return;
     setIsSearching(true);
     try {
-      const res = await searchNearby({ latitude: location.lat, longitude: location.lng, keyword, radius });
+      const res = await searchNearby({ latitude: location.lat, longitude: location.lng, keyword, radius: searchRadius });
       setResults(res);
     } finally {
       setIsSearching(false);
@@ -51,7 +52,7 @@ export default function HomePage() {
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} isSearching={isSearching}>
+      <SearchBar onSearch={handleSearch} onRadiusChange={setRadius} isSearching={isSearching}>
         {isAuthenticated && <UserMenu>WebsiteLeadsMap</UserMenu>}
       </SearchBar>
       <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
@@ -67,6 +68,7 @@ export default function HomePage() {
         <div className="flex-1 h-[50vh] md:h-auto order-1 md:order-2">
           <MapPanel
             center={location}
+            radius={radius}
             businesses={results}
             highlightedPlaceId={highlightedPlaceId}
             onMarkerClick={(placeId: string) => setHighlightedPlaceId(placeId)}
