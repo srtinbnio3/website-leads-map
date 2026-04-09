@@ -47,6 +47,17 @@ export function BusinessCard({ business, isSaved, isHighlighted, onClick }: Busi
           <Badge variant={statusInfo.variant} className="shrink-0 text-xs">{statusInfo.label}</Badge>
         </div>
         <p className="text-xs text-muted-foreground [word-break:keep-all]">{business.formattedAddress}</p>
+        {business.websiteUri && (
+          <a
+            href={business.websiteUri}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-blue-500 hover:underline truncate block max-w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {(() => { try { return new URL(business.websiteUri).hostname; } catch { return business.websiteUri; } })()}
+          </a>
+        )}
         <div className="flex gap-3 text-xs text-muted-foreground">
           {business.distance !== undefined && <span>{business.distance}m</span>}
           {business.userRatingCount !== undefined && <span>クチコミ {business.userRatingCount}件</span>}
