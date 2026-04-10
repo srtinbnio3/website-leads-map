@@ -1,6 +1,8 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 import { BusinessCard } from "@/components/BusinessCard";
 import { LeadsList } from "@/components/LeadsList";
 import type { Lead, SearchResult } from "@/lib/types";
@@ -11,17 +13,20 @@ interface BusinessPanelProps {
   leads: Lead[];
   highlightedPlaceId: string | null;
   onCardHighlight: (placeId: string) => void;
+  nextPageToken: string | null;
+  isLoadingMore: boolean;
+  onLoadMore: () => void;
 }
 
-export function BusinessPanel({ searchResults, savedPlaceIds, leads, highlightedPlaceId, onCardHighlight }: BusinessPanelProps) {
+export function BusinessPanel({ searchResults, savedPlaceIds, leads, highlightedPlaceId, onCardHighlight, nextPageToken, isLoadingMore, onLoadMore }: BusinessPanelProps) {
   return (
     <Tabs defaultValue="search" className="flex flex-col h-full">
       <TabsList className="mx-2 mt-2 shrink-0 bg-transparent border-b rounded-none w-full justify-start">
         <TabsTrigger value="search" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none text-muted-foreground rounded-none">検索結果 ({searchResults.length})</TabsTrigger>
         <TabsTrigger value="leads" className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none text-muted-foreground rounded-none">保存済みリード ({leads.length})</TabsTrigger>
       </TabsList>
-      <TabsContent value="search" className="flex-1 overflow-hidden m-0">
-        <ScrollArea className="h-full">
+      <TabsContent value="search" className="flex-1 overflow-hidden m-0 flex flex-col">
+        <ScrollArea className="flex-1">
           <div className="p-2 space-y-2">
             {searchResults.map((b) => (
               <BusinessCard
@@ -35,6 +40,25 @@ export function BusinessPanel({ searchResults, savedPlaceIds, leads, highlighted
             {searchResults.length === 0 && <p className="text-center text-muted-foreground py-8">検索してください</p>}
           </div>
         </ScrollArea>
+        {nextPageToken && searchResults.length > 0 && (
+          <div className="p-2 border-t shrink-0">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={onLoadMore}
+              disabled={isLoadingMore}
+            >
+              {isLoadingMore ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  読み込み中...
+                </>
+              ) : (
+                "さらに検索"
+              )}
+            </Button>
+          </div>
+        )}
       </TabsContent>
       <TabsContent value="leads" className="flex-1 overflow-hidden m-0">
         <LeadsList leads={leads} />

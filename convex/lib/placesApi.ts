@@ -10,10 +10,10 @@ export interface PlaceResult {
 }
 
 export async function fetchNearbyPlaces(
-  args: { latitude: number; longitude: number; keyword?: string; radius: number },
+  args: { latitude: number; longitude: number; keyword?: string; radius: number; pageToken?: string },
   apiKey: string
-): Promise<PlaceResult[]> {
-  const body = {
+): Promise<{ places: PlaceResult[]; nextPageToken: string | null }> {
+  const body: Record<string, unknown> = {
     textQuery: args.keyword || "近くのお店",
     locationBias: {
       circle: {
@@ -24,12 +24,16 @@ export async function fetchNearbyPlaces(
     languageCode: "ja",
   };
 
+  if (args.pageToken) {
+    body.pageToken = args.pageToken;
+  }
+
   const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.primaryType,places.nationalPhoneNumber,places.websiteUri,places.userRatingCount",
+      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.primaryType,places.nationalPhoneNumber,places.websiteUri,places.userRatingCount,nextPageToken",
     },
     body: JSON.stringify(body),
   });
@@ -40,5 +44,8 @@ export async function fetchNearbyPlaces(
   }
 
   const data = await response.json();
-  return (data.places ?? []) as PlaceResult[];
+  return {
+    places: (data.places ?? []) as PlaceResult[],
+    nextPageToken: (data.nextPageToken as string) ?? null,
+  };
 }
