@@ -13,6 +13,7 @@ import type * as http from "../http.js";
 import type * as leads from "../leads.js";
 import type * as lib_domainAnalysis from "../lib/domainAnalysis.js";
 import type * as lib_placesApi from "../lib/placesApi.js";
+import type * as lib_sortResults from "../lib/sortResults.js";
 import type * as places from "../places.js";
 import type * as users from "../users.js";
 
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   leads: typeof leads;
   "lib/domainAnalysis": typeof lib_domainAnalysis;
   "lib/placesApi": typeof lib_placesApi;
+  "lib/sortResults": typeof lib_sortResults;
   places: typeof places;
   users: typeof users;
 }>;
